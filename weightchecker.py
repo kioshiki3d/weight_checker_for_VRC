@@ -39,25 +39,21 @@ class KJ_weight_checker(KJ_link_ang):
         return context.scene.KjwcLinkBool
 
 
-    def execute(self, context):
+    def weight_checker(self, context):
         scene = context.scene
         objects = bpy.data.objects
         actions = bpy.data.actions
         src_obj = objects[OBJ_SOURCE]
         dmy_obj = objects[f"{OBJ_SOURCE}Roll"]
         tgt_obj = objects[scene.KjwcTargetArmature.name]
-        layer_coll = context.view_layer.layer_collection.children[COLL_SOURCE]
 
-        layer_coll.exclude = False
-        tgt_obj.select_set(True)
+        src_obj.select_set(True)
         context.view_layer.objects.active = src_obj
         ani_params = self.PropAni if self.PropAni!="" else ACTION_NAMES[0]
         src_obj.animation_data.action = actions[f"{OBJ_SOURCE}|{ani_params}|Base Layer"]
         frm = int(self.PropSlider * STD_FRAME)
         scene.frame_current = STD_FRAME + frm
-        layer_coll.exclude = True
         if ani_params in ACTION_NAMES[1:]:
-            layer_coll.exclude = False
             try:
                 bpy.ops.object.mode_set(mode = "OBJECT")
             except:
@@ -81,15 +77,20 @@ class KJ_weight_checker(KJ_link_ang):
                 ang_roll_v = Quaternion((0, -1, 0), d_roll)
                 ang = ang_roll @ ang_move @ ang_roll_v
                 dmy_bone.rotation_mode = "QUATERNION"
-                #dmy_bone.rotation_quaternion.rotate(ang_move)
-                #dmy_bone.rotation_quaternion.rotate(ang_roll)
                 dmy_bone.rotation_quaternion = ang
-                #if dmy_bone_name=="Hips":
-                    #loc_move = list(src_bone.location)
-                    #x = loc_move[0]*sin(d_roll)
-                    #y = loc_move[1]
-                    #z = -loc_move[2]*cos(d_roll)
-                    #dmy_bone.location = (x, y, z)
+                """
+                if dmy_bone_name=="Hips":
+                    loc_move = list(src_bone.location)
+                    x = loc_move[0]*sin(d_roll)
+                    y = loc_move[1]
+                    z = -loc_move[2]*cos(d_roll)
+                    dmy_bone.location = (x, y, z)
+                """
             bpy.ops.object.mode_set(mode = "OBJECT")
-            layer_coll.exclude = True
+
+
+    def execute(self, context):
+        self.collection_exclude(context, False)
+        self.weight_checker(context)
+        self.collection_exclude(context, True)
         return {"FINISHED"}

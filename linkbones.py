@@ -9,6 +9,12 @@ class KJ_link_ang(Operator):
     tgt_roll = {}
 
 
+    def collection_exclude(self, context, exclude=False):
+        layer_coll = context.view_layer.layer_collection.children[COLL_SOURCE]
+        layer_coll.exclude = exclude
+        return layer_coll
+
+
     def reset_pose(self, context, obj):
         context.view_layer.objects.active = obj
         for bone in obj.data.bones:
@@ -46,8 +52,7 @@ class KJ_link_bones(KJ_link_ang):
             new_coll = collections.new(COLL_SOURCE)
             context.scene.collection.children.link(new_coll)
         # active collection
-        layer_coll = context.view_layer.layer_collection.children[COLL_SOURCE]
-        layer_coll.exclude = False
+        layer_coll = self.collection_exclude(context, False)
         context.view_layer.active_layer_collection = layer_coll
 
         # import FBX
@@ -85,7 +90,7 @@ class KJ_link_bones(KJ_link_ang):
         bpy.ops.object.mode_set(mode = "OBJECT")
 
 
-    def set_constraint(self, context, tgt_obj, src_obj, link_bool=True):
+    def set_constraint(self, context, tgt_obj, src_obj=None):
         scene = context.scene
         context.view_layer.objects.active = tgt_obj
         bpy.ops.object.mode_set(mode = "POSE")
@@ -102,7 +107,7 @@ class KJ_link_bones(KJ_link_ang):
             for c in copyLocConstraints:
                 tgt_bone.constraints.remove(c)
             # atatch constraints
-            if link_bool:
+            if src_obj:
                 constraint = tgt_bone.constraints.new(type="COPY_ROTATION")
                 constraint.target = src_obj
                 constraint.subtarget = bname
@@ -118,7 +123,7 @@ class KJ_link_bones(KJ_link_ang):
         self.reset_pose(context, src_obj)
         self.reset_pose(context, dmy_obj)
         self.reset_pose(context, tgt_obj)
-        self.set_constraint(context, tgt_obj, src_obj, link_bool=False)
+        self.set_constraint(context, tgt_obj)
 
 
     def link_bones(self, context):
@@ -147,8 +152,9 @@ class KJ_link_bones(KJ_link_ang):
             dmy_bone.roll = self.tgt_roll[tgt_bname]
         bpy.ops.object.mode_set(mode = "OBJECT")
         # constraint
-        self.set_constraint(context, tgt_obj, dmy_obj, link_bool=True)
+        self.set_constraint(context, tgt_obj, dmy_obj)
         bpy.ops.object.mode_set(mode = "OBJECT")
+        tgt_obj.select_set(True)
 
 
     def execute(self, context):
@@ -161,10 +167,8 @@ class KJ_link_bones(KJ_link_ang):
         # Link to Unlink
         if scene.KjwcLinkBool:
             # bone unlink
-            layer_coll = context.view_layer.layer_collection.children[COLL_SOURCE]
-            layer_coll.exclude = False
+            self.collection_exclude(context, False)
             self.unlink_bones(context)
-            layer_coll.exclude = True
             scene.frame_current = 0
 
             rpt_txt = "unlink bones"
@@ -185,7 +189,6 @@ class KJ_link_bones(KJ_link_ang):
             rpt_txt = "link bones"
             scene.KjwcLinkBool = True
 
-        layer_coll = context.view_layer.layer_collection.children[COLL_SOURCE]
-        layer_coll.exclude = True
+        self.collection_exclude(context, True)
         self.report({"INFO"}, rpt_txt)
         return {"FINISHED"}

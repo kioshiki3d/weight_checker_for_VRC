@@ -39,12 +39,11 @@ class KJ_set_bones(Operator):
 
 
     def bones_mapping(self, context, bnames, names, rl=[""], fings={"":""}):
-        scene = context.scene
         for j in rl:
             for k,v in names.items():
                 for i in fings.keys():
                     x = k+i+j
-                    self.name_re_search(scene, bnames, x, v, j)
+                    self.name_re_search(context.scene, bnames, x, v, j)
 
 
     def execute(self, context):
