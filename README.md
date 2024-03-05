@@ -8,6 +8,9 @@ VRChat向けアバターのUnity Humanoid Avatarマッピングを確認する�
 - "Setup"を実行しボーンマッピングする
 - "Link"を実行しArmatureとマッピングをリンクさせる
 - "Check"を実行しオペレータプロパティから任意のアニメーションを選択し、スライダーを動かすことで挙動を確認する
+詳細は
+[note](https://note.com/preview/n0ad7f3701df1?prev_access_key=6f64f5da1784e2f72c49a438e3e5253d)
+参照
 
 # Revision
 v0.0.1: 2024/03/01  

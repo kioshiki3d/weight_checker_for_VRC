@@ -50,13 +50,13 @@ class KJ_set_bones(Operator):
         scene = context.scene
         wm = context.window_manager
         objects = bpy.data.objects
-        tgt_obj = objects[scene.KjwcTargetArmature.name]
         # set props
         if not scene.KjwcTargetArmature:
             self.report({"WARNING"}, self.rpt_txt)
             return {"FINISHED"}
 
         obj_name = scene.KjwcTargetArmature.name
+        tgt_obj = objects[obj_name]
         set_prop_allbones(obj_name)
         set_props_bones()
         wm.KjwcBody = True
