@@ -1,7 +1,7 @@
 import bpy
 from bpy.types import Operator
 from .settings import *
-from .propsetting import remove_objects
+from .propsetting import read_path, remove_objects
 
 
 class KJ_link_ang(Operator):
@@ -58,7 +58,7 @@ class KJ_link_bones(KJ_link_ang):
         # import FBX
         obj_list = [ob.name for ob in objects]
         if not OBJ_SOURCE in obj_list:
-            bpy.ops.import_scene.fbx(filepath=PATH)
+            bpy.ops.import_scene.fbx(filepath=read_path())
             src_obj = objects[OBJ_SOURCE]
         else:
             src_obj = objects[OBJ_SOURCE]

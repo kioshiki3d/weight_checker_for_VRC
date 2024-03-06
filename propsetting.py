@@ -1,7 +1,16 @@
+import os
+import glob
 import bpy
 from bpy.types import PropertyGroup
 from bpy.props import PointerProperty, BoolProperty, FloatProperty, EnumProperty
 from .settings import *
+
+
+def read_path():
+    path_base = os.path.join(bpy.utils.resource_path("USER"), "scripts", "addons") # LOCAL
+    addon_path = glob.glob(os.path.join(path_base, "weight_checker_for_VRC*"))
+    PATH = os.path.join(addon_path[0], "source", f"{OBJ_SOURCE}.fbx")
+    return PATH
 
 
 def set_allbones_items(obj_name):
