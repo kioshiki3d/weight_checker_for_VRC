@@ -16,3 +16,5 @@ VRChat向けアバターのUnity Humanoid Avatarマッピングを確認する�
 v0.0.1: 2024/03/01  
 製作開始
 
+v0.0.2: 2024/03/06  
+bugfix

@@ -1,11 +1,13 @@
 import os
+import glob
 import bpy
 
 STD_FRAME = 10
 COLL_SOURCE = "WCfV source Collection"
 OBJ_SOURCE = "WCfVsourceArmature"
 path_base = os.path.join(bpy.utils.resource_path("USER"), "scripts", "addons") # LOCAL
-PATH = os.path.join(path_base, "weight_checker_for_VRC", "source", f"{OBJ_SOURCE}.fbx")
+addon_path = glob.glob(os.path.join(path_base, "weight_checker_for_VRC*"))
+PATH = os.path.join(addon_path[0], "source", f"{OBJ_SOURCE}.fbx")
 
 ACTION_NAMES = ["0 base",
     "1 Open Close",
