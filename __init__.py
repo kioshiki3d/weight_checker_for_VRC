@@ -21,7 +21,7 @@ bl_info = {
     "description": "weight checker for VRC",
     "warning": "",
     "support": "COMMUNITY",
-    "wiki_url": "https://github.com/kioshiki3d/xxxxx/",
+    "wiki_url": "https://github.com/kioshiki3d/weight_checker_for_VRC",
     "tracker_url": "https://twitter.com/shadow003min",
     "category": "Object",
 }
