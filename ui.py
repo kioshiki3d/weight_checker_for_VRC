@@ -10,7 +10,7 @@ class KJ_WCfV_Panel(Panel):
     bl_label = "weight checker for VRC"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = "WCfV"
+    bl_category = "kjtools"
 
 
     def draw(self, context):

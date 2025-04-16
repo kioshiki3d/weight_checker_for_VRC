@@ -15,7 +15,7 @@ if "bpy" in locals():
 bl_info = {
     "name": "weight checker for VRC",
     "author": "Kageji",
-    "version": (0, 0, 2),
+    "version": (0, 0, 3),
     "blender": (3, 3, 0),
     "location": "3D View > Sidebar",
     "description": "weight checker for VRC",
